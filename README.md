@@ -32,4 +32,8 @@ commit
 branch
 <img width="320" alt="image" src="https://github.com/mju-likelion/12th-crossover-web-1/assets/114339587/5cd2c010-fb33-4210-b87f-f50349555581">
 
+## Naming Rule
+![image](https://github.com/mju-likelion/12th-crossover-web-1/assets/163697678/d215dadd-fdd4-4c92-aae1-0ae452fc7f67)
+
+
 

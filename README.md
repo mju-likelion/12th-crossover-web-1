@@ -23,3 +23,13 @@ develop	배포 전 작업 기준 브랜치
 feature/~~	기능 단위 구현 브랜치
 hotfix	서비스 중 긴급 수정 건에 대한 처리
 
+
+## Git Convention
+
+commit
+<img width="298" alt="image" src="https://github.com/mju-likelion/12th-crossover-web-1/assets/114339587/f057f39a-7881-4ed7-a4b2-a0c842c10b18">
+
+branch
+<img width="320" alt="image" src="https://github.com/mju-likelion/12th-crossover-web-1/assets/114339587/5cd2c010-fb33-4210-b87f-f50349555581">
+
+

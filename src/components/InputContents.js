@@ -25,7 +25,7 @@ const ContentsInput = styled.textarea`
   gap: 10px;
   font-size: 20px;
 
-  ${({ theme }) => theme.fonts.sumText1}
+  ${({ theme }) => theme.fonts.subText1}
 `;
 
 export default InputContents;

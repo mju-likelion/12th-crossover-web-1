@@ -24,6 +24,7 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: white;
 
     & > *:first-child {
         margin-left: 360px;

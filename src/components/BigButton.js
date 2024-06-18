@@ -2,11 +2,11 @@ import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../styles/Theme";
 
-const BigButton = () => {
+const BigButton = ({ buttonText }) => {
   return (
     <ThemeProvider theme={Theme}>
       <Container>
-        <Button>로그인</Button>
+        <Button>{buttonText}</Button>
       </Container>
     </ThemeProvider>
   );

@@ -17,8 +17,8 @@ const Container = styled.div`
 `;
 
 const ContentsInput = styled.textarea`
-  width: 794px;
-  height: 751px;
+  width: 724px;
+  height: 681px;
   padding: 35px;
   border: 2px solid ${({ theme }) => theme.colors.gray};
   border-radius: 25px;

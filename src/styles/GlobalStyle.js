@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import "./font.css";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -11,6 +12,9 @@ const GlobalStyle = createGlobalStyle`
     border: 0;
     font-size: 10px;
     text-decoration: none;
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
   }
   body{
     line-height: 1;

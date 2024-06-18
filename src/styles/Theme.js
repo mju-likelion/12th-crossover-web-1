@@ -33,12 +33,12 @@ export const Theme = {
       font-weight: 600;
       font-size: 20px;
     `,
-    sumText1: css`
+    subText1: css`
       font-family: "Noto Sans KR", sans-serif;
       font-weight: 500;
       font-size: 20px;
     `,
-    sumText2: css`
+    subText2: css`
       font-family: "Noto Sans KR", sans-serif;
       font-weight: 600;
       font-size: 21px;

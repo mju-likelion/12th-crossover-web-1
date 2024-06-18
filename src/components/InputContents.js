@@ -24,6 +24,8 @@ const ContentsInput = styled.textarea`
   border-radius: 25px;
   gap: 10px;
   font-size: 20px;
+  resize: none;
+  overflow: hidden;
 
   ${({ theme }) => theme.fonts.subText1}
 `;

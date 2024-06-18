@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../styles/Theme";
 
-const InputFilled = () => {
+const InputFilled = ({ placeholder }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (event) => {
@@ -17,7 +17,7 @@ const InputFilled = () => {
     <ThemeProvider theme={Theme}>
       <InputContainer>
         <Filled
-          placeholder="아이디"
+          placeholder={placeholder}
           type="text"
           value={inputValue}
           onChange={handleChange}

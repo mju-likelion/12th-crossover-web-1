@@ -12,11 +12,10 @@ const SmallButton = ({ buttonText }) => {
   );
 };
 const Container = styled.div`
-  margin: 20px;
 `;
 const Button = styled.button`
   width: 233px;
-  height: 78px;
+  height: 70px;
   background-color: ${({ theme }) => theme.colors.blue1};
   color: #fff;
   text-align: center;

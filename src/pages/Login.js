@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
-import Header from "../components/Header";
+//import Header from "../components/Header";
 import InputFilled from "../components/InputFilled";
 import BigButton from "../components/BigButton";
 
@@ -32,40 +32,50 @@ const Login = () => {
 
   return (
     <Container>
-      <Header />
-      <Title>로그인</Title>
-      <FormContainer>
-        <InputFilled
-          placeholder="아이디"
-          type="text"
-          validate={validateUserId}
-          hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
-        />
-        <InputFilled
-          placeholder="비밀번호"
-          type="password"
-          validate={validatePassword}
-          hint="영문, 숫자, 특수문자를 조합하여 8~14글자 미만으로 입력하여 주세요."
-        />
-        <Button>
-          <BigButton
-            buttonText="로그인"
-            isEnabled={isUserIdValid && isPasswordValid}
+      <AllBox>
+        <Title>로그인</Title>
+        <FormContainer>
+          <IdBox>
+            <InputFilled
+              placeholder="아이디"
+              type="text"
+              validate={validateUserId}
+              hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
+            />
+          </IdBox>
+          <InputFilled
+            placeholder="비밀번호"
+            type="password"
+            validate={validatePassword}
+            hint="영문, 숫자, 특수문자를 조합하여 8~14글자 미만으로 입력하여 주세요."
           />
-        </Button>
-        <Join>회원가입</Join>
-      </FormContainer>
+          <Button>
+            <BigButton
+              buttonText="로그인"
+              isEnabled={isUserIdValid && isPasswordValid}
+            />
+          </Button>
+          <Join>회원가입</Join>
+        </FormContainer>
+      </AllBox>
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 100%;
-  height: 100vh;
+  margin-top: 145px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const AllBox = styled.div`
+  width: 540px;
+  height: 572px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 const FormContainer = styled.div`
@@ -74,20 +84,24 @@ const FormContainer = styled.div`
   align-items: center;
 `;
 
+const IdBox = styled.div`
+  margin-bottom: 16px;
+`;
+
 const Title = styled.p`
   ${({ theme }) => theme.fonts.mainTitle};
   margin-bottom: 65px;
 `;
 
 const Button = styled.div`
-  margin-top: 22px;
+  margin-top: 56px;
 `;
 
 const Join = styled.p`
-  margin-top: 10px;
+  margin-top: 31px;
+  margin-right: 38px;
   text-align: right;
   width: 100%;
-  margin-right: 38px;
 `;
 
 export default Login;

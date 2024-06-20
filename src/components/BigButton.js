@@ -11,9 +11,7 @@ const BigButton = ({ buttonText, isEnabled }) => {
     </ThemeProvider>
   );
 };
-const Container = styled.div`
-  margin: 20px;
-`;
+const Container = styled.div``;
 const Button = styled.button`
   width: 540px;
   height: 90px;

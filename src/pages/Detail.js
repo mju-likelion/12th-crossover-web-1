@@ -36,7 +36,8 @@ const ContentContainer = styled.div`
 `;
 
 const InfoText = styled.p`
-  ${({ theme }) => theme.fonts.subText2};
+  ${({ theme }) => theme.fonts.default};
+  color: ${({ theme }) => theme.colors.gray};
   width: 100%;
   text-align: left;
 `;

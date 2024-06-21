@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../styles/Theme";
 import errorIcon from "../assets/images/ error.svg";
+import successIcon from "../assets/images/success.svg";
 
 const InputFilled = ({
   placeholder,
@@ -10,6 +11,7 @@ const InputFilled = ({
   hint,
   validBorderColor,
   successMessage,
+  showSuccessIcon,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
@@ -53,6 +55,9 @@ const InputFilled = ({
             {error && <ErrorIcon src={errorIcon} alt="Error" />}
           </ErrorIconContainer>
         )}
+        <SuccessIconContainer isValid={isValid}>
+          {isValid && showSuccessIcon && (<SuccessIcon src={successIcon} alt="Success" />)}
+        </SuccessIconContainer>
         {inputValue && <ClearButton onClick={clearInput}>X</ClearButton>}
         {error && <ErrorText>{error}</ErrorText>}
         {!inputValue && !error && <HintText>{hint}</HintText>}
@@ -75,7 +80,18 @@ const ErrorIconContainer = styled.div`
   display: ${({ error }) => (error ? "block" : "none")};
 `;
 
+const SuccessIconContainer = styled.div`
+  display: ${({ isValid }) => (isValid ? "block" : "none")};
+`;
+
 const ErrorIcon = styled.img`
+  position: absolute;
+  right: 72.5px;
+  top: 35%;
+  transform: translateY(-50%);
+`;
+
+const SuccessIcon = styled.img`
   position: absolute;
   right: 72.5px;
   top: 35%;
@@ -91,7 +107,7 @@ const Filled = styled.input`
   border-radius: 25px;
   ${({ theme }) => theme.fonts.default};
   padding: 29px 27px;
-  margin-bottom: 16px;
+  margin-bottom: 6px;
   &:focus {
     outline: none;
   }
@@ -114,7 +130,7 @@ const ErrorText = styled.p`
   margin-left: 22.5px;
   ${({ theme }) => theme.fonts.helperText};
   color: ${({ theme }) => theme.colors.red};
-  margin-top: -6px;
+  margin-top: 5px;
   margin-bottom: 18px;
 `;
 
@@ -122,15 +138,15 @@ const HintText = styled.p`
   margin-left: 22.5px;
   ${({ theme }) => theme.fonts.helperText};
   color: ${({ theme }) => theme.colors.gray};
-  margin-top: -6px;
-  margin-bottom: 18px;
+  margin-top: 10px;
+  margin-bottom: 21px;
 `;
 
 const SuccessText = styled.p`
   margin-left: 22.5px;
   ${({ theme }) => theme.fonts.helperText};
-  color: ${({ validBorderColor }) => validBorderColor};
-  margin-top: -6px;
+  color: ${({ theme }) => theme.colors.green};
+  margin-top: 5px;
   margin-bottom: 18px;
 `;
 

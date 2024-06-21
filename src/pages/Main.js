@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import MainContents from '../components/MainContents';
 import SmallButton from '../components/SmallButton';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Main = () => {
     const initialContents = [
@@ -31,17 +32,25 @@ const Main = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [handleScroll]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <Wrapper1>
             <Wrapper2>
                 <BtnWrapper>
-                    <SmallButton buttonText = "작성하기"/>
+                    <Link to="/boards">
+                        <SmallButton isEnabled="true" buttonText = "작성하기"/>
+                    </Link>
                     </BtnWrapper>
-                    <Box>
-                    {contents.map((content, index) => (
-                        <ContentWrapper key={index}>{content}</ContentWrapper>
-                    ))}
-                </Box>
+                        <Box>
+                        {contents.map((content, index) => (
+                            <Link to="/boards/detail">
+                                <ContentWrapper key={index}>{content}</ContentWrapper>
+                            </Link>
+                        ))}
+                        </Box>
             </Wrapper2>
         </Wrapper1>
     );
@@ -67,6 +76,7 @@ const Box = styled.div`
 
 const ContentWrapper = styled.div`
     margin-bottom: 54px;
+    cursor: pointer;
 `;
 
 export default Main

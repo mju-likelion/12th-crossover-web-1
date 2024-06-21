@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputTitle = ({ title, onTitleChange }) => {
+const InputTitle = ({ title, onTitleChange, readOnly = false }) => {
   return (
     <Container>
       <TitleInput
@@ -9,8 +9,9 @@ const InputTitle = ({ title, onTitleChange }) => {
         onChange={onTitleChange}
         placeholder="제목 : "
         maxLength="20"
+        readOnly={readOnly}
       />
-      <CharacterCount> ( {title.length} / 20 )</CharacterCount>
+  <CharacterCount> ( {title.length} / 20 )</CharacterCount>
     </Container>
   );
 };
@@ -27,6 +28,7 @@ const TitleInput = styled.input`
   border-radius: 25px;
   gap: 10px;
   ${({ theme }) => theme.fonts.subTitle}
+  font-size: 24px;
   &:focus {
     outline: none;
   }

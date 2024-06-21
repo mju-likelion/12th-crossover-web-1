@@ -1,14 +1,17 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
-import { Theme } from "../styles/Theme";
+import styled from "styled-components";
 
-const InputContents = () => {
+const InputContents = ({ contents, onContentsChange }) => {
   return (
-    <ThemeProvider theme={Theme}>
-      <Container>
-        <ContentsInput placeholder="text" maxLength="140" />
-      </Container>
-    </ThemeProvider>
+    <Container>
+      <ContentsInput
+        value={contents}
+        onChange={onContentsChange}
+        placeholder="text"
+        maxLength="140"
+      />
+      <CharacterCount> ( {contents.length} / 140 )</CharacterCount>
+    </Container>
   );
 };
 
@@ -23,11 +26,19 @@ const ContentsInput = styled.textarea`
   border: 2px solid ${({ theme }) => theme.colors.gray};
   border-radius: 25px;
   gap: 10px;
-  font-size: 20px;
-  resize: none;
-  overflow: hidden;
-
+  overflow: scroll;
   ${({ theme }) => theme.fonts.subText1}
+  &:focus {
+    outline: none;
+  }
+`;
+
+const CharacterCount = styled.div`
+  position: absolute;
+  bottom: 53px;
+  right: 45px;
+  ${({ theme }) => theme.fonts.subText1}
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default InputContents;

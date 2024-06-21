@@ -39,60 +39,50 @@ const Join = () => {
   };
 
   return (
-    <Container>
+    <JoinContainer>
       <Title>회원가입</Title>
-      <JoinContainer>
-        <InputFilled
-          placeholder="아이디"
-          type="text"
-          validate={validateUserId}
-          hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
-          validBorderColor="green"
-          successMessage="사용 가능한 아이디 입니다."
+      <InputFilled
+        placeholder="아이디"
+        type="text"
+        validate={validateUserId}
+        hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
+        validBorderColor="green"
+        successMessage="사용 가능한 아이디 입니다."
+      />
+      <InputFilled
+        placeholder="비밀번호"
+        type="password"
+        validate={validatePassword}
+        hint="영문, 숫자, 특수문자를 조합하여 8~14글자 미만으로 입력하여 주세요."
+        validBorderColor="green"
+        successMessage="사용 가능한 비밀번호 입니다."
+      />
+      <InputFilled
+        placeholder="이메일"
+        type="email"
+        validate={validateEmail}
+        hint="사용하실 이메일을 입력해주세요."
+        validBorderColor="green"
+        successMessage="사용 가능한 이메일 입니다."
+      />
+      <InputFilled
+        placeholder="닉네임"
+        type="text"
+        hint="사용하실 닉네임을 입력해주세요."
+      />
+      <Privacy />
+      <Button>
+        <BigButton
+          buttonText="완료하기"
+          isEnabled={isUserIdValid && isPasswordValid && isEmailValid}
         />
-        <InputFilled
-          placeholder="비밀번호"
-          type="password"
-          validate={validatePassword}
-          hint="영문, 숫자, 특수문자를 조합하여 8~14글자 미만으로 입력하여 주세요."
-          validBorderColor="green"
-          successMessage="사용 가능한 비밀번호 입니다."
-        />
-        <InputFilled
-          placeholder="이메일"
-          type="email"
-          validate={validateEmail}
-          hint="사용하실 이메일을 입력해주세요."
-          validBorderColor="green"
-          successMessage="사용 가능한 이메일 입니다."
-        />
-        <InputFilled
-          placeholder="닉네임"
-          type="text"
-          hint="사용하실 닉네임을 입력해주세요."
-        />
-        <Privacy />
-        <Button>
-          <BigButton
-            buttonText="완료하기"
-            isEnabled={isUserIdValid && isPasswordValid && isEmailValid}
-          />
-        </Button>
-      </JoinContainer>
-    </Container>
+      </Button>
+    </JoinContainer>
   );
 };
 
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const JoinContainer = styled.div`
+  margin-top: 145px;
   display: flex;
   flex-direction: column;
   align-items: center;

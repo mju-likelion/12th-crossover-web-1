@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const InputContents = ({ contents, onContentsChange }) => {
+const InputContents = ({ contents, onContentsChange, readOnly = false }) => {
   return (
     <Container>
       <ContentsInput
@@ -9,8 +9,10 @@ const InputContents = ({ contents, onContentsChange }) => {
         onChange={onContentsChange}
         placeholder="text"
         maxLength="140"
+        readOnly = {readOnly}
       />
-      <CharacterCount> ( {contents.length} / 140 )</CharacterCount>
+      
+        <CharacterCount> ( {contents.length} / 140 )</CharacterCount>
     </Container>
   );
 };
@@ -27,6 +29,8 @@ const ContentsInput = styled.textarea`
   border-radius: 25px;
   gap: 10px;
   overflow: scroll;
+  resize: none;
+  overflow: hidden;
   ${({ theme }) => theme.fonts.subText1}
   &:focus {
     outline: none;
@@ -39,6 +43,7 @@ const CharacterCount = styled.div`
   right: 45px;
   ${({ theme }) => theme.fonts.subText1}
   color: ${({ theme }) => theme.colors.gray};
+
 `;
 
 export default InputContents;

@@ -3,10 +3,13 @@ import styled from "styled-components";
 import * as Yup from "yup";
 import InputFilled from "../components/InputFilled";
 import BigButton from "../components/BigButton";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const navigate = useNavigate();
+
   const validateUserId = async (value) => {
     const schema = Yup.string()
       .matches(
@@ -29,32 +32,40 @@ const Login = () => {
     setIsPasswordValid(true);
   };
 
+  const handleLogin = () => {
+    if (isUserIdValid && isPasswordValid) {
+      navigate("/boards/page");
+    }};
+
   return (
     <Container>
       <AllBox>
         <Title>로그인</Title>
         <FormContainer>
-          <IdBox>
             <InputFilled
               placeholder="아이디"
               type="text"
               validate={validateUserId}
               hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
+              showSuccessIcon={false}
             />
-          </IdBox>
           <InputFilled
             placeholder="비밀번호"
             type="password"
             validate={validatePassword}
             hint="영문, 숫자, 특수문자를 조합하여 8~14글자 미만으로 입력하여 주세요."
+            showSuccessIcon={false}
           />
-          <Button>
-            <BigButton
-              buttonText="로그인"
-              isEnabled={isUserIdValid && isPasswordValid}
-            />
-          </Button>
+            <Button>
+              <BigButton
+                buttonText="로그인"
+                isEnabled={isUserIdValid && isPasswordValid}
+                onClick={handleLogin}
+              />
+            </Button>
+          <Link to="/auth/signin">
           <Join>회원가입</Join>
+          </Link>
         </FormContainer>
       </AllBox>
     </Container>
@@ -83,10 +94,6 @@ const FormContainer = styled.div`
   align-items: center;
 `;
 
-const IdBox = styled.div`
-  margin-bottom: 16px;
-`;
-
 const Title = styled.p`
   ${({ theme }) => theme.fonts.mainTitle};
   margin-bottom: 65px;
@@ -97,10 +104,10 @@ const Button = styled.div`
 `;
 
 const Join = styled.p`
-  margin-top: 31px;
-  margin-right: 38px;
   text-align: right;
-  width: 100%;
+  margin-top: 31px;
+  width: 540px;
+  margin-right: 15px;
   cursor: pointer;
 `;
 

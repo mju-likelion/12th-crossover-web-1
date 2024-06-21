@@ -1,10 +1,23 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import Login from "./pages/Login";
+import Main from "./pages/Main";
+import Join from "./pages/Join";
+import Write from "./pages/Write";
+import Detail from "./pages/Detail";
 
 function App() {
   return(
     <>
-    <Layout />
+      <Layout />
+      <Routes>
+        <Route path="/auth/login" element = {<Login />} />
+        <Route path="/boards/page" element = {<Main />}/>
+        <Route path="/auth/signin" element = {<Join />} />
+        <Route path="/boards" element = {<Write />} />
+        <Route path="/boards/detail" element = {<Detail />} />
+      </Routes>
     </>
   );
 }

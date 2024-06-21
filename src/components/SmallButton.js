@@ -2,11 +2,11 @@ import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../styles/Theme";
 
-const SmallButton = ({ buttonText, isEnabled, backgroundColor }) => {
+const SmallButton = ({ buttonText, isEnabled, backgroundColor, onClick}) => {
   return (
     <ThemeProvider theme={Theme}>
       <Container>
-        <Button isEnabled={isEnabled} backgroundColor={backgroundColor}>
+        <Button isEnabled={isEnabled} backgroundColor={backgroundColor} onClick={isEnabled ? onClick : null}>
           {buttonText}
         </Button>
       </Container>

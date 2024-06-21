@@ -2,11 +2,11 @@ import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../styles/Theme";
 
-const BigButton = ({ buttonText, isEnabled }) => {
+const BigButton = ({ buttonText, isEnabled, onClick }) => {
   return (
     <ThemeProvider theme={Theme}>
       <Container>
-        <Button isEnabled={isEnabled}>{buttonText}</Button>
+        <Button isEnabled={isEnabled} onClick={isEnabled ? onClick : null}>{buttonText}</Button>
       </Container>
     </ThemeProvider>
   );

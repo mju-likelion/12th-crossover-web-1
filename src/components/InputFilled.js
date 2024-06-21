@@ -9,6 +9,7 @@ const InputFilled = ({
   validate,
   hint,
   validBorderColor,
+  successMessage,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
@@ -55,6 +56,11 @@ const InputFilled = ({
         {inputValue && <ClearButton onClick={clearInput}>X</ClearButton>}
         {error && <ErrorText>{error}</ErrorText>}
         {!inputValue && !error && <HintText>{hint}</HintText>}
+        {isValid && (
+          <SuccessText validBorderColor={validBorderColor}>
+            {successMessage}
+          </SuccessText>
+        )}
       </InputContainer>
     </ThemeProvider>
   );
@@ -119,4 +125,13 @@ const HintText = styled.p`
   margin-top: -6px;
   margin-bottom: 18px;
 `;
+
+const SuccessText = styled.p`
+  margin-left: 22.5px;
+  ${({ theme }) => theme.fonts.helperText};
+  color: ${({ validBorderColor }) => validBorderColor};
+  margin-top: -6px;
+  margin-bottom: 18px;
+`;
+
 export default InputFilled;

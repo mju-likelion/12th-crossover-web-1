@@ -14,7 +14,7 @@ const SmallButton = ({ buttonText, isEnabled }) => {
 const Container = styled.div``;
 const Button = styled.button`
   width: 233px;
-  height: 78px;
+  height: 70px;
   background-color: ${({ theme, isEnabled }) =>
     isEnabled ? theme.colors.blue2 : theme.colors.blue1};
   color: #fff;

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import airplaneLetter from '../assets/images/airplane_logo.svg';
-import logout from '../assets/images/logout icon.svg';
+import logout from '../assets/images/logout_icon.svg';
 
 function Header() {
     return(
@@ -20,19 +20,11 @@ const Wrapper = styled.div`
     top: 0;
     width: 100%;
     height: 116px;
-    box-shadow: #717171 0px 1px 0px 0px;
+    box-shadow: ${({ theme }) => theme.colors.gray} 0px 1px 0px 0px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     background-color: white;
-
-    & > *:first-child {
-        margin-left: 360px;
-    }
-
-    & > *:last-child {
-        margin-right: 363px;
-    }
+    padding: 40px 360px;
 `;
 
 const Logo = styled.img`

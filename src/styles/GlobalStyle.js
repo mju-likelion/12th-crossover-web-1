@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     border: 0;
     font-size: 10px;
     text-decoration: none;
+    box-sizing: border-box;
     font-family: "Noto Sans KR", sans-serif;
     font-weight: 500;
     font-size: 20px;

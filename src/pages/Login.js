@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
-//import Header from "../components/Header";
 import InputFilled from "../components/InputFilled";
 import BigButton from "../components/BigButton";
 
@@ -102,6 +101,7 @@ const Join = styled.p`
   margin-right: 38px;
   text-align: right;
   width: 100%;
+  cursor: pointer;
 `;
 
 export default Login;

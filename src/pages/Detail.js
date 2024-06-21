@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Theme } from "../styles/Theme";
-import Header from "../components/Header";
 import InputTitle from "../components/InputTitle";
 import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton"; // SmallButton 컴포넌트 import
@@ -9,7 +8,6 @@ import SmallButton from "../components/SmallButton"; // SmallButton 컴포넌트
 const Detail = () => {
   return (
     <ThemeProvider theme={Theme}>
-      <Header />
       <MainContainer>
         <ContentContainer>
           <InputTitle />
@@ -25,7 +23,7 @@ const Detail = () => {
 };
 
 const MainContainer = styled.div`
-  margin-top: 200px;
+  margin-top: 58px;
   display: flex;
   justify-content: center;
 `;

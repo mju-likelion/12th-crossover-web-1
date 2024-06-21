@@ -14,7 +14,7 @@ const Detail = () => {
           <InputContents />
           <InfoText>※ 작성된 게시물은 수정이 불가합니다.</InfoText>
           <ButtonContainer>
-            <StyledSmallButton buttonText="삭제하기" />
+            <SmallButton backgroundColor="True" buttonText="삭제하기" />
           </ButtonContainer>
         </ContentContainer>
       </MainContainer>
@@ -40,19 +40,14 @@ const InfoText = styled.p`
   color: ${({ theme }) => theme.colors.gray};
   width: 100%;
   text-align: left;
+  margin-left: 35px;
 `;
 
 const ButtonContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-`;
-
-const StyledSmallButton = styled(SmallButton)`
-  && {
-    color: ${({ theme }) => theme.colors.gray};
-    border-color: ${({ theme }) => theme.colors.gray};
-  }
+  margin-right: 33px;
 `;
 
 export default Detail;

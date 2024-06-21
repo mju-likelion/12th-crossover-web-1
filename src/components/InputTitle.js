@@ -1,14 +1,17 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
-import { Theme } from "../styles/Theme";
+import styled from "styled-components";
 
-const InputTitle = () => {
+const InputTitle = ({ title, onTitleChange }) => {
   return (
-    <ThemeProvider theme={Theme}>
-      <Container>
-        <TitleInput placeholder="제목 : " maxLength="20" />
-      </Container>
-    </ThemeProvider>
+    <Container>
+      <TitleInput
+        value={title}
+        onChange={onTitleChange}
+        placeholder="제목 : "
+        maxLength="20"
+      />
+      <CharacterCount> ( {title.length} / 20 )</CharacterCount>
+    </Container>
   );
 };
 
@@ -23,8 +26,18 @@ const TitleInput = styled.input`
   border: 2px solid ${({ theme }) => theme.colors.gray};
   border-radius: 25px;
   gap: 10px;
-  font-size: 24px;
   ${({ theme }) => theme.fonts.subTitle}
+  &:focus {
+    outline: none;
+  }
+`;
+
+const CharacterCount = styled.div`
+  position: absolute;
+  bottom: 51px;
+  right: 52px;
+  color: ${({ theme }) => theme.colors.gray};
+  ${({ theme }) => theme.fonts.subText1}
 `;
 
 export default InputTitle;

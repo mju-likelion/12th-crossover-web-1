@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const TitleInput = styled.input`
-  width: 684px;
+  width: 724px;
   height: 64px;
   padding: 55px 35px;
   border: 2px solid ${({ theme }) => theme.colors.gray};

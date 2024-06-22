@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
@@ -12,6 +12,7 @@ function App() {
     <>
       <Layout />
       <Routes>
+      <Route path="/" element={<Navigate to="/auth/login" />} />
         <Route path="/auth/login" element = {<Login />} />
         <Route path="/boards/page" element = {<Main />}/>
         <Route path="/auth/signin" element = {<Join />} />

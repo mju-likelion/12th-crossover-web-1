@@ -4,16 +4,20 @@ import * as Yup from "yup";
 import InputFilled from "../components/InputFilled";
 import BigButton from "../components/BigButton";
 import { Link, useNavigate } from "react-router-dom";
+import { Axios } from "../api/Axios";
 
 const Login = () => {
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const navigate = useNavigate();
 
   const validateUserId = async (value) => {
+    setUserId(value);
     const schema = Yup.string()
       .matches(
-        /^[a-zA-Z0-9]{5,10}$/,
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,10}$/,
         "아이디를 잘못 입력하셨습니다. 다시 입력해주세요."
       )
       .required("아이디를 입력해주세요.");
@@ -22,6 +26,7 @@ const Login = () => {
   };
 
   const validatePassword = async (value) => {
+    setPassword(value);
     const schema = Yup.string()
       .matches(
         /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,14})/,
@@ -32,23 +37,34 @@ const Login = () => {
     setIsPasswordValid(true);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    console.log(process.env.REACT_APP_BASE_URL);
     if (isUserIdValid && isPasswordValid) {
-      navigate("/boards/page");
-    }};
+      try {
+        const response = await Axios.post(`/auth/login`, {
+          userId,
+          password,
+        });
+        console.log(response.data);
+        navigate("/boards/page");
+      } catch (error) {
+        console.error("로그인 실패", error);
+      }
+    }
+  };
 
   return (
     <Container>
       <AllBox>
         <Title>로그인</Title>
         <FormContainer>
-            <InputFilled
-              placeholder="아이디"
-              type="text"
-              validate={validateUserId}
-              hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
-              showSuccessIcon={false}
-            />
+          <InputFilled
+            placeholder="아이디"
+            type="text"
+            validate={validateUserId}
+            hint="영문과 숫자를 조합하여 5~10글자 미만으로 입력하여 주세요."
+            showSuccessIcon={false}
+          />
           <InputFilled
             placeholder="비밀번호"
             type="password"
@@ -56,15 +72,15 @@ const Login = () => {
             hint="영문, 숫자, 특수문자를 조합하여 8~14글자 미만으로 입력하여 주세요."
             showSuccessIcon={false}
           />
-            <Button>
-              <BigButton
-                buttonText="로그인"
-                isEnabled={isUserIdValid && isPasswordValid}
-                onClick={handleLogin}
-              />
-            </Button>
+          <Button>
+            <BigButton
+              buttonText="로그인"
+              isEnabled={isUserIdValid && isPasswordValid}
+              onClick={handleLogin}
+            />
+          </Button>
           <Link to="/auth/signin">
-          <Join>회원가입</Join>
+            <Join>회원가입</Join>
           </Link>
         </FormContainer>
       </AllBox>

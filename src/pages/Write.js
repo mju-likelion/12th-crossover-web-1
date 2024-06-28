@@ -30,10 +30,9 @@ const Write = () => {
         });
 
         if (response.status === 200 || response.status === 201) {
-          const newBoardId = response.data.data.id;
-          navigate(`/boards/${newBoardId}`);
+          navigate(`/boards/page`);
         } else {
-          console.error("에러", response.data);
+          console.error("실패", response.data);
           alert("제출 실패. 다시 시도");
         }
       } catch (error) {

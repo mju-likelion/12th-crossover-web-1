@@ -2,9 +2,19 @@ import styled from 'styled-components';
 import myProfile from '../assets/images/profile.svg';
 import defaultProfile from '../assets/images/gray_profile.svg';
 import more from '../assets/images/send.svg';
+import { Axios } from '../api/Axios';
 
-const Comment = ({ isMyPost, name, content, timeStamp }) => {
+const Comment = ({ isMyPost, name, content, timeStamp, boardId, commentid }) => {
     const profileImg = isMyPost ? myProfile : defaultProfile;
+    
+    const commentDelete = async () => {
+        try {
+            await Axios.delete(`/boards/${boardId}/comments/${commentid}`);
+            window.location.reload();
+            }catch (error) {
+            console.error("에러", error);
+            }
+        }
 
     return (
         <BigContainer>
@@ -12,11 +22,9 @@ const Comment = ({ isMyPost, name, content, timeStamp }) => {
         <UserInfo>
             <ProfileImg src={profileImg} alt="프로필 이미지" />
             <Name>{name}</Name>
-            {isMyPost && (
-                <MoreButton>
+                <MoreButton onClick={commentDelete}>
                 <img src={more} alt="더보기 버튼" />
             </MoreButton>
-            )}
         </UserInfo>
         <ContentBox>
             <Content>{content}</Content>

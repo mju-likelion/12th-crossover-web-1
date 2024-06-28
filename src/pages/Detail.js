@@ -23,12 +23,16 @@ const Detail = () => {
         setContent(content);
         setComments(commentList || []);
       } catch (error) {
-        console.error("Error fetching board details:", error);
+        console.error("에러", error);
       }
     };
 
     fetchBoardDetail();
   }, [boardId]);
+
+  const handleCommentSubmit = (newComment) => {
+    setComments((prevComments) => [...prevComments, newComment]);
+  };
 
   return (
     <>
@@ -45,7 +49,7 @@ const Detail = () => {
         </ContentContainer>
       </MainContainer>
       <CommentWrapper>
-        <CommentInput />
+        <CommentInput boardId={boardId} onCommentSubmit={handleCommentSubmit} />{" "}
         <CommentList>
           {comments.map((comment) => (
             <Comment

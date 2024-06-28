@@ -1,61 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import InputTitle from "../components/InputTitle";
 import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton";
 import CommentInput from "../components/CommentInput";
 import Comment from "../components/Comment";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { Axios } from "../api/Axios"; // Axios 인스턴스를 가져옵니다.
 
 const Detail = () => {
-  const title = "멋사 최고입니다요 🫶🏻"
-  const content = "멋사 정말 재밌어요! 최고에요!"
+  const { boardId } = useParams();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const fetchBoardDetail = async () => {
+      try {
+        const response = await Axios.get(`/boards/${boardId}`);
+        const { title, content, commentList } = response.data.data;
+        setTitle(title);
+        setContent(content);
+        setComments(commentList || []);
+      } catch (error) {
+        console.error("Error fetching board details:", error);
+      }
+    };
+
+    fetchBoardDetail();
+  }, [boardId]);
 
   return (
     <>
-  <MainContainer>
+      <MainContainer>
         <ContentContainer>
-          <InputTitle  title={title} readOnly = {true}/>
+          <InputTitle title={title} readOnly={true} />
           <InputContents contents={content} readOnly={true} />
           <InfoText>※ 작성된 게시물은 수정이 불가합니다.</InfoText>
           <ButtonContainer>
             <Link to="/boards/page">
-            <SmallButton backgroundColor={true} buttonText="삭제하기" />
+              <SmallButton backgroundColor={true} buttonText="삭제하기" />
             </Link>
           </ButtonContainer>
         </ContentContainer>
       </MainContainer>
       <CommentWrapper>
-  <CommentInput />
-  <CommentList>
-    {/* 임시 value 지정 */}
-    <Comment
-      isMyPost
-      name="댓글 작성자 이름"
-      content="댓글 내용"
-      timeStamp="16:28"
-    />
-    <Comment
-      isMyPost={false}
-      name="댓글 작성자 이름"
-      content="댓글 내용"
-      timeStamp="16:28"
-    />
-    <Comment
-      isMyPost
-      name="댓글 작성자 이름"
-      content="댓글 내용"
-      timeStamp="16:28"
-    />
-    <Comment
-      isMyPost={false}
-      name="댓글 작성자 이름"
-      content="댓글 내용"
-      timeStamp="16:28"
-    />
-  </CommentList>
-</CommentWrapper>
-
+        <CommentInput />
+        <CommentList>
+          {comments.map((comment) => (
+            <Comment
+              key={comment.id}
+              isMyPost={false} // 필요 시, 로그인 정보를 기반으로 수정 가능
+              name={comment.name}
+              content={comment.content}
+              timeStamp={new Date(comment.createdTime).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            />
+          ))}
+        </CommentList>
+      </CommentWrapper>
     </>
   );
 };
@@ -88,11 +93,11 @@ const ButtonContainer = styled.div`
   margin-right: 33px;
 `;
 
-const CommentWrapper = styled.div``
+const CommentWrapper = styled.div``;
 const CommentList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`
+`;
 
 export default Detail;

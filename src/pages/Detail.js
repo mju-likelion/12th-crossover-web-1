@@ -3,6 +3,8 @@ import styled from "styled-components";
 import InputTitle from "../components/InputTitle";
 import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton";
+import CommentInput from "../components/CommentInput";
+import Comment from "../components/Comment";
 import { Link } from "react-router-dom";
 
 const Detail = () => {
@@ -10,6 +12,7 @@ const Detail = () => {
   const content = "멋사 정말 재밌어요! 최고에요!"
 
   return (
+    <>
   <MainContainer>
         <ContentContainer>
           <InputTitle  title={title} readOnly = {true}/>
@@ -22,7 +25,38 @@ const Detail = () => {
           </ButtonContainer>
         </ContentContainer>
       </MainContainer>
+      <CommentWrapper>
+  <CommentInput />
+  <CommentList>
+    {/* 임시 value 지정 */}
+    <Comment
+      isMyPost
+      name="댓글 작성자 이름"
+      content="댓글 내용"
+      timeStamp="16:28"
+    />
+    <Comment
+      isMyPost={false}
+      name="댓글 작성자 이름"
+      content="댓글 내용"
+      timeStamp="16:28"
+    />
+    <Comment
+      isMyPost
+      name="댓글 작성자 이름"
+      content="댓글 내용"
+      timeStamp="16:28"
+    />
+    <Comment
+      isMyPost={false}
+      name="댓글 작성자 이름"
+      content="댓글 내용"
+      timeStamp="16:28"
+    />
+  </CommentList>
+</CommentWrapper>
 
+    </>
   );
 };
 
@@ -53,5 +87,12 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
   margin-right: 33px;
 `;
+
+const CommentWrapper = styled.div``
+const CommentList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
 
 export default Detail;

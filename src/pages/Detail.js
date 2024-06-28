@@ -18,17 +18,39 @@ const Detail = () => {
     const fetchBoardDetail = async () => {
       try {
         const response = await Axios.get(`/boards/${boardId}`);
-        const { title, content, commentList } = response.data.data;
+        const title = response.data.data.title;
+        const content = response.data.data.content;
+        const commentList = response.data.data.commentList;
+        console.log("Detail: ", response.data.data);
         setTitle(title);
         setContent(content);
         setComments(commentList || []);
       } catch (error) {
-        console.error("Error fetching board details:", error);
+        console.error("에러", error);
       }
     };
 
     fetchBoardDetail();
   }, [boardId]);
+
+  const handleDelete = async () => {
+    try {
+      await Axios.delete(`/boards/${boardId}`);
+      window.location.href = "/boards/page";
+    } catch (error) {
+      console.error("에러", error);
+    }
+  };
+
+  const handleCommentSubmit = async (newComment) => {
+    try {
+      setComments((prevComments) => [...prevComments, newComment]);
+
+      window.location.reload();
+    } catch (error) {
+      console.error("error: ", error);
+    }
+  };
 
   return (
     <>
@@ -39,13 +61,18 @@ const Detail = () => {
           <InfoText>※ 작성된 게시물은 수정이 불가합니다.</InfoText>
           <ButtonContainer>
             <Link to="/boards/page">
-              <SmallButton backgroundColor={true} buttonText="삭제하기" />
+              <SmallButton
+                isEnabled={true}
+                onClick={handleDelete}
+                backgroundColor={true}
+                buttonText="삭제하기"
+              />
             </Link>
           </ButtonContainer>
         </ContentContainer>
       </MainContainer>
       <CommentWrapper>
-        <CommentInput />
+        <CommentInput boardId={boardId} onCommentSubmit={handleCommentSubmit} />{" "}
         <CommentList>
           {comments.map((comment) => (
             <Comment
@@ -57,6 +84,7 @@ const Detail = () => {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
+              commentid={comment.id}
             />
           ))}
         </CommentList>

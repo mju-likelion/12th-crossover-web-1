@@ -3,22 +3,35 @@ import MainContents from '../components/MainContents';
 import SmallButton from '../components/SmallButton';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Axios } from '../api/Axios';
 
 const Main = () => {
-    const initialContents = [
-        <MainContents key={0} />,
-        <MainContents key={1} />,
-        <MainContents key={2} />
-    ];
+    const [content, setContent] = useState([]);
+    const [page, setPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
-    const [contents, setContents] = useState(initialContents);
+    const fetchBoards = async (page) => {
+        setIsLoading(true);
+        try {
+            const response = await Axios.get(`/boards?page=${page}`);
+            const newContents = response.data.data.boardList;
+            setContent((prevContents) => [...prevContents, ...newContents]);
+            setHasMore(newContents.length > 0);
+        } catch (error) {
+            console.error('Error: ', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const loadMore = useCallback(() => {
-        setContents((prevContents) => [
-            ...prevContents,
-            <MainContents key={prevContents.length} />,
-        ]);
-    }, []);
+        if (!isLoading && hasMore) {
+            const nextPage = page + 1;
+            setPage(nextPage);
+            fetchBoards(nextPage);
+        }
+    }, [isLoading, hasMore, page]);
 
     const handleScroll = useCallback(() => {
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
@@ -26,6 +39,10 @@ const Main = () => {
             loadMore();
         }
     }, [loadMore]);
+
+    useEffect(() => {
+        fetchBoards(1);
+    }, []);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -41,16 +58,23 @@ const Main = () => {
             <Wrapper2>
                 <BtnWrapper>
                     <Link to="/boards">
-                        <SmallButton isEnabled="true" buttonText = "작성하기"/>
+                        <SmallButton isEnabled="true" buttonText="작성하기" />
                     </Link>
-                    </BtnWrapper>
-                        <Box>
-                        {contents.map((content, index) => (
-                            <Link to="/boards/detail">
-                                <ContentWrapper key={index}>{content}</ContentWrapper>
-                            </Link>
-                        ))}
-                        </Box>
+                </BtnWrapper>
+                <Box>
+                    {content.map((contents) => (
+                        <Link key={contents.id} to={`/boards/${contents.id}`}>
+                            <ContentWrapper>
+                                <MainContents 
+                                title={contents.title} 
+                                content={contents.content} 
+                                time={contents.createdTime}
+                                />
+                            </ContentWrapper>
+                        </Link>
+                    ))}
+                    {isLoading && <Loading>Loading...</Loading>}
+                </Box>
             </Wrapper2>
         </Wrapper1>
     );
@@ -62,21 +86,25 @@ const Wrapper1 = styled.div`
     align-items: center;
 `;
 
-const Wrapper2 = styled.div`
-`;
+const Wrapper2 = styled.div``;
 
 const BtnWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     margin: 20px 0 23px 0;
-    `;
-
-const Box = styled.div`
 `;
+
+const Box = styled.div``;
 
 const ContentWrapper = styled.div`
     margin-bottom: 54px;
     cursor: pointer;
 `;
 
-export default Main
+const Loading = styled.div`
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+`;
+
+export default Main;

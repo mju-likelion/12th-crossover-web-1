@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import InputFilled from "../components/InputFilled";
@@ -9,30 +9,40 @@ import { Theme } from "../styles/Theme";
 import { Axios } from "../api/Axios";
 
 const Join = () => {
-  useEffect(() => {
-    const getTerms = async () => {
-      try {
-        const response = await Axios.get("/terms");
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getTerms();
-  }, []);
-
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [termsAgreementList, setTermsAgreementList] = useState([]);
   const [isUserIdValid, setIsUserIdValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
+
+  const toggleCheck = () => {
+    setIsChecked(!isChecked);
+    setTermsAgreementList([
+      {
+        termId: "4b631df1-b62c-4939-af78-1b1887ee6d2b",
+        agreed: !isChecked,
+      },
+    ]);
+  };
 
   const validateUserId = async (value) => {
     const schema = Yup.string()
-      .matches(/^[a-zA-Z0-9]{5,10}$/, "사용하실 수 없는 아이디 입니다.")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,10}$/,
+        "사용하실 수 없는 아이디 입니다."
+      )
       .required("아이디를 입력해주세요.");
     await schema.validate(value);
     setIsUserIdValid(true);
+    setUserId(value);
   };
+
   const validatePassword = async (value) => {
     const schema = Yup.string()
       .matches(
@@ -42,7 +52,9 @@ const Join = () => {
       .required("비밀번호를 입력해주세요.");
     await schema.validate(value);
     setIsPasswordValid(true);
+    setPassword(value);
   };
+
   const validateEmail = async (value) => {
     const schema = Yup.string()
       .matches(
@@ -52,14 +64,49 @@ const Join = () => {
       .required("사용하실 이메일을 입력해주세요.");
     await schema.validate(value);
     setIsEmailValid(true);
+    setEmail(value);
   };
 
-  const handleJoin = () => {
-    if (isUserIdValid && isPasswordValid) {
-      navigate("/auth/login");
+  const validateName = async (value) => {
+    const schema = Yup.string().required("닉네임을 입력해주세요.");
+    await schema.validate(value);
+    setIsNameValid(true);
+    setName(value);
+  };
+
+  const handleJoin = async () => {
+    if (
+      isUserIdValid &&
+      isPasswordValid &&
+      isEmailValid &&
+      isNameValid &&
+      isChecked
+    ) {
+      try {
+        const response = await Axios.post("/auth/signin", {
+          userId,
+          password,
+          email,
+          name,
+          termsAgreementList,
+        });
+        if (response.status === 201) {
+          navigate("/auth/login");
+        }
+      } catch (error) {
+        console.error("회원가입 중 에러 발생:", error);
+        if (error.response) {
+          if (error.response.status === 409) {
+            console.error("이미 사용 중인 아이디나 비밀번호입니다.");
+          } else {
+            console.error("서버에서 에러 응답:", error.response.data);
+          }
+        } else {
+          console.error("클라이언트 요청에서 에러 발생:", error.message);
+        }
+      }
     }
   };
-
   return (
     <JoinContainer>
       <Title>회원가입</Title>
@@ -93,13 +140,20 @@ const Join = () => {
       <InputFilled
         placeholder="닉네임"
         type="text"
+        validate={validateName}
         hint="사용하실 닉네임을 입력해주세요."
       />
-      <Privacy />
+      <Privacy isChecked={isChecked} toggleCheck={toggleCheck} />
       <Button>
         <BigButton
           buttonText="완료하기"
-          isEnabled={isUserIdValid && isPasswordValid && isEmailValid}
+          isEnabled={
+            isUserIdValid &&
+            isPasswordValid &&
+            isEmailValid &&
+            isNameValid &&
+            isChecked
+          }
           onClick={handleJoin}
         />
       </Button>

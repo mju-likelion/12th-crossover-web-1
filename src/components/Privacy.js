@@ -13,7 +13,6 @@ const Privacy = ({isChecked, toggleCheck}) => {
             try {
                 const response = await Axios.get("/terms");
                 setTerms(response.data.data.terms[0].terms);
-                console.log("콘솔",response.data);
             } catch (error) {
                 console.log(error);
                 }

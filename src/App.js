@@ -8,16 +8,16 @@ import Write from "./pages/Write";
 import Detail from "./pages/Detail";
 
 function App() {
-  return(
+  return (
     <>
       <Layout />
       <Routes>
-      <Route path="/" element={<Navigate to="/auth/login" />} />
-        <Route path="/auth/login" element = {<Login />} />
-        <Route path="/boards/page" element = {<Main />}/>
-        <Route path="/auth/signin" element = {<Join />} />
-        <Route path="/boards" element = {<Write />} />
-        <Route path="/boards/detail" element = {<Detail />} />
+        <Route path="/" element={<Navigate to="/auth/login" />} />
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/boards/page" element={<Main />} />
+        <Route path="/auth/signin" element={<Join />} />
+        <Route path="/boards" element={<Write />} />
+        <Route path="/boards/:boardId" element={<Detail />} />
       </Routes>
     </>
   );

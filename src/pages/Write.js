@@ -4,6 +4,7 @@ import styled from "styled-components";
 import InputTitle from "../components/InputTitle";
 import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton";
+import { Axios } from "../api/Axios";
 
 const Write = () => {
   const [title, setTitle] = useState("");
@@ -20,23 +21,48 @@ const Write = () => {
 
   const isButtonEnabled = title.length > 0 && contents.length > 0;
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isButtonEnabled) {
-      navigate("/boards/detail");
+      try {
+        const response = await Axios.post("/boards", {
+          title: title,
+          content: contents,
+        });
+
+        if (response.status === 200 || response.status === 201) {
+          const newBoardId = response.data.data.id;
+          navigate(`/boards/${newBoardId}`);
+        } else {
+          console.error("에러", response.data);
+          alert("제출 실패. 다시 시도");
+        }
+      } catch (error) {
+        console.error("에러", error);
+        alert("에러발생. 다시 시도");
+      }
     }
   };
 
   return (
     <MainContainer>
       <ContentContainer>
-        <InputTitle title={title} onTitleChange={handleTitleChange} readOnly={false}/>
+        <InputTitle
+          title={title}
+          onTitleChange={handleTitleChange}
+          readOnly={false}
+        />
         <InputContents
           contents={contents}
           onContentsChange={handleContentsChange}
         />
         <InfoText>※ 작성된 게시물은 수정이 불가합니다.</InfoText>
         <ButtonContainer>
-            <SmallButton buttonText="작성하기" isEnabled={isButtonEnabled} onClick={handleSubmit} readOnly={false}/>
+          <SmallButton
+            buttonText="작성하기"
+            isEnabled={isButtonEnabled}
+            onClick={handleSubmit}
+            readOnly={false}
+          />
         </ButtonContainer>
       </ContentContainer>
     </MainContainer>

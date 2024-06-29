@@ -4,7 +4,6 @@ import InputTitle from "../components/InputTitle";
 import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton";
 import CommentInput from "../components/CommentInput";
-import Comment from "../components/Comment";
 import { useParams } from "react-router-dom";
 import { Axios } from "../api/Axios";
 
@@ -42,13 +41,21 @@ const Detail = () => {
     }
   };
 
+  const handleCommentDelete = async (commentId) => {
+    try {
+      await Axios.delete(`/boards/${boardId}/comments/${commentId}`);
+      setComments(comments.filter((comment) => comment.id !== commentId));
+    } catch (error) {
+      console.error("댓글 삭제 에러: ", error);
+    }
+  };
+
   const handleCommentSubmit = async (newComment) => {
     try {
       setComments((prevComments) => [...prevComments, newComment]);
-
       window.location.reload();
     } catch (error) {
-      console.error("error: ", error);
+      console.error("댓글 작성 에러: ", error);
     }
   };
 
@@ -73,17 +80,21 @@ const Detail = () => {
         <CommentInput boardId={boardId} onCommentSubmit={handleCommentSubmit} />
         <CommentList>
           {comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              isMyPost={false}
-              name={comment.name}
-              content={comment.content}
-              timeStamp={new Date(comment.createdTime).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-              commentid={comment.id}
-            />
+            <CommentContainer key={comment.id}>
+              <CommentHeader>
+                <CommentAuthor>{comment.name}</CommentAuthor>
+                <CommentTimestamp>
+                  {new Date(comment.createdTime).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </CommentTimestamp>
+              </CommentHeader>
+              <CommentBody>{comment.content}</CommentBody>
+              <DeleteIcon onClick={() => handleCommentDelete(comment.id)}>
+                삭제
+              </DeleteIcon>
+            </CommentContainer>
           ))}
         </CommentList>
       </CommentWrapper>
@@ -120,10 +131,44 @@ const ButtonContainer = styled.div`
 `;
 
 const CommentWrapper = styled.div``;
+
 const CommentList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+`;
+
+const CommentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CommentAuthor = styled.span`
+  font-weight: bold;
+`;
+
+const CommentTimestamp = styled.span`
+  color: #888;
+`;
+
+const CommentBody = styled.p`
+  margin: 10px 0;
+`;
+
+const DeleteIcon = styled.button`
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
 `;
 
 export default Detail;

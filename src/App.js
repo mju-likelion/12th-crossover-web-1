@@ -6,6 +6,7 @@ import Main from "./pages/Main";
 import Join from "./pages/Join";
 import Write from "./pages/Write";
 import Detail from "./pages/Detail";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/boards" element={<Write />} />
         <Route path="/boards/:boardId" element={<Detail />} />
       </Routes>
+      <ScrollToTop />
     </>
   );
 }

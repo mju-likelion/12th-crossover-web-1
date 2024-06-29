@@ -5,7 +5,7 @@ import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton";
 import CommentInput from "../components/CommentInput";
 import Comment from "../components/Comment";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Axios } from "../api/Axios";
 
 const Detail = () => {
@@ -60,19 +60,17 @@ const Detail = () => {
           <InputContents contents={content} readOnly={true} />
           <InfoText>※ 작성된 게시물은 수정이 불가합니다.</InfoText>
           <ButtonContainer>
-            <Link to="/boards/page">
-              <SmallButton
-                isEnabled={true}
-                onClick={handleDelete}
-                backgroundColor={true}
-                buttonText="삭제하기"
-              />
-            </Link>
+            <SmallButton
+              isEnabled={true}
+              onClick={handleDelete}
+              backgroundColor={true}
+              buttonText="삭제하기"
+            />
           </ButtonContainer>
         </ContentContainer>
       </MainContainer>
       <CommentWrapper>
-        <CommentInput boardId={boardId} onCommentSubmit={handleCommentSubmit} />{" "}
+        <CommentInput boardId={boardId} onCommentSubmit={handleCommentSubmit} />
         <CommentList>
           {comments.map((comment) => (
             <Comment

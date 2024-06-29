@@ -5,7 +5,7 @@ import InputContents from "../components/InputContents";
 import SmallButton from "../components/SmallButton";
 import CommentInput from "../components/CommentInput";
 import Comment from "../components/Comment";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Axios } from "../api/Axios";
 
 const Detail = () => {
@@ -42,13 +42,21 @@ const Detail = () => {
     }
   };
 
+  const handleCommentDelete = async (commentId) => {
+    try {
+      await Axios.delete(`/boards/${boardId}/comments/${commentId}`);
+      setComments(comments.filter((comment) => comment.id !== commentId));
+    } catch (error) {
+      console.error("댓글 삭제 에러: ", error);
+    }
+  };
+
   const handleCommentSubmit = async (newComment) => {
     try {
       setComments((prevComments) => [...prevComments, newComment]);
-
       window.location.reload();
     } catch (error) {
-      console.error("error: ", error);
+      console.error("댓글 작성 에러: ", error);
     }
   };
 
@@ -60,32 +68,37 @@ const Detail = () => {
           <InputContents contents={content} readOnly={true} />
           <InfoText>※ 작성된 게시물은 수정이 불가합니다.</InfoText>
           <ButtonContainer>
-            <Link to="/boards/page">
-              <SmallButton
-                isEnabled={true}
-                onClick={handleDelete}
-                backgroundColor={true}
-                buttonText="삭제하기"
-              />
-            </Link>
+            <SmallButton
+              isEnabled={true}
+              onClick={handleDelete}
+              backgroundColor={true}
+              buttonText="삭제하기"
+            />
           </ButtonContainer>
         </ContentContainer>
       </MainContainer>
       <CommentWrapper>
-        <CommentInput boardId={boardId} onCommentSubmit={handleCommentSubmit} />{" "}
         <CommentList>
+          <CommentInput
+            boardId={boardId}
+            onCommentSubmit={handleCommentSubmit}
+          />
           {comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              isMyPost={false}
-              name={comment.name}
-              content={comment.content}
-              timeStamp={new Date(comment.createdTime).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-              commentid={comment.id}
-            />
+            <CommentContainer key={comment.id}>
+              <Comment
+                isMyPost={false}
+                name={comment.name}
+                content={comment.content}
+                timeStamp={new Date(comment.createdTime).toLocaleTimeString(
+                  [],
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+                onDelete={() => handleCommentDelete(comment.id)}
+              />
+            </CommentContainer>
           ))}
         </CommentList>
       </CommentWrapper>
@@ -121,11 +134,28 @@ const ButtonContainer = styled.div`
   margin-right: 33px;
 `;
 
-const CommentWrapper = styled.div``;
+const CommentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+`;
+
 const CommentList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  align-items: center;
+`;
+
+const CommentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  width: 100%;
+  max-width: 740px;
 `;
 
 export default Detail;
